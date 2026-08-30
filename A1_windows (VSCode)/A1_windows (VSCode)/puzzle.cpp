@@ -95,45 +95,43 @@ int Puzzle::getGCost(){
 
 //Heuristic function implementation
 int Puzzle::h(heuristicFunction hFunction){
-	
-	int sum=0;
-	int h=0;
-	int numOfMisplacedTiles=0;
-	switch(hFunction){
-		case misplacedTiles:			      
-				//place your implementation here
-				for(int i=0;i<3;i++){
-					for(int j=0;j<3;j++){
-						if(board[i][j]!=0){
-							if(goalBoard[i][j]!=board[i][j]){
-								numOfMisplacedTiles++;
-							}
-						}
-					}
+	if(hFunction == misplacedTiles){
+		int numOfMisplacedTiles = 0;
+		for(int i = 0; i < 3; i++){
+			for(int j = 0; j < 3; j++){
+				if(board[i][j] != 0 && board[i][j] != goalBoard[i][j]){
+					numOfMisplacedTiles++;
 				}
-                h = numOfMisplacedTiles; 					
-		        break;
-		case manhattanDistance:
-		        //place your implementation here
-		        for(int i=0;i<3;i++){
-					for(int j=0;j<3;j++){
-						int title=board[i][j];
-						if(title != 0){
-							for(int goalI=0;i<3;i++){
-								for(int goalJ=0;j<3;j++){
-									if(goalBoard[goalI][goalJ]==title){
-										sum=fabs(i-goalI)+fabs(j-goalJ);
-									}
-								}
-							}
-						}
-					}
+			}
+		}
+		return numOfMisplacedTiles;
+	}
+
+	if(hFunction == manhattanDistance){
+		int goalRow[9];
+		int goalColumn[9];
+		for(int i = 0; i < 3; i++){
+			for(int j = 0; j < 3; j++){
+				const int tile = goalBoard[i][j];
+				goalRow[tile] = i;
+				goalColumn[tile] = j;
+			}
+		}
+
+		int sum = 0;
+		for(int i = 0; i < 3; i++){
+			for(int j = 0; j < 3; j++){
+				const int tile = board[i][j];
+				if(tile != 0){
+					sum += abs(i - goalRow[tile]) +
+					       abs(j - goalColumn[tile]);
 				}
-		        h = sum; 					
-		        break;                
-	};
-	
-	return h;
+			}
+		}
+		return sum;
+	}
+
+	return 0;
 	
 }
 

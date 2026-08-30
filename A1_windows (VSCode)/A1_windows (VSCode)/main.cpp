@@ -26,7 +26,7 @@
 
     #include "algorithm.h"
 
-#elif defined __WIN32__
+#elif defined _WIN32
 
     #include <windows.h>
     #include <stdio.h>

@@ -24,20 +24,27 @@
         },
         {
             "type": "cppbuild",
-            "label": "C/C++: g++.exe build active file",
-            "command": "C:\\gcc\\bin\\g++.exe",
+            "label": "Build search.exe",
+            "command": "C:\\msys64\\ucrt64\\bin\\g++.exe",
             "args": [
                 "-fdiagnostics-color=always",
                 "-g",
-                "*.cpp",
+                "-std=c++11",
+                "${workspaceFolder}\\main.cpp",
+                "${workspaceFolder}\\algorithm.cpp",
+                "${workspaceFolder}\\puzzle.cpp",
+                "${workspaceFolder}\\graphics.cpp",
                 "-o",       
-                "${fileDirname}\\search.exe",
+                "${workspaceFolder}\\search.exe",
                 "-Wno-write-strings",       
                 "-lgdi32"
    
             ],
             "options": {
-                "cwd": "${fileDirname}"
+                "cwd": "${workspaceFolder}",
+                "env": {
+                    "PATH": "C:\\msys64\\ucrt64\\bin;${env:PATH}"
+                }
             },
             "problemMatcher": [
                 "$gcc"
