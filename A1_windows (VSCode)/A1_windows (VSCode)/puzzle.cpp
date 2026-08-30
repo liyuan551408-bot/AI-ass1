@@ -78,7 +78,7 @@ void Puzzle::updateHCost(heuristicFunction hFunction){
 }
 
 void Puzzle::updateFCost(){
-	//fCost = ?
+	fCost = getGCost() + getHCost();
 }
 
 int Puzzle::getFCost(){
@@ -99,19 +99,38 @@ int Puzzle::h(heuristicFunction hFunction){
 	int sum=0;
 	int h=0;
 	int numOfMisplacedTiles=0;
-	
 	switch(hFunction){
 		case misplacedTiles:			      
-				//place your implementation here	
+				//place your implementation here
+				for(int i=0;i<3;i++){
+					for(int j=0;j<3;j++){
+						if(board[i][j]!=0){
+							if(goalBoard[i][j]!=board[i][j]){
+								numOfMisplacedTiles++;
+							}
+						}
+					}
+				}
                 h = numOfMisplacedTiles; 					
 		        break;
-		         
 		case manhattanDistance:
 		        //place your implementation here
-		        
+		        for(int i=0;i<3;i++){
+					for(int j=0;j<3;j++){
+						int title=board[i][j];
+						if(title != 0){
+							for(int goalI=0;i<3;i++){
+								for(int goalJ=0;j<3;j++){
+									if(goalBoard[goalI][goalJ]==title){
+										sum=fabs(i-goalI)+fabs(j-goalJ);
+									}
+								}
+							}
+						}
+					}
+				}
 		        h = sum; 					
-		        break;         
-		           
+		        break;                
 	};
 	
 	return h;
@@ -140,8 +159,14 @@ string Puzzle::toString(){
 
 
 bool Puzzle::goalMatch(){
-	bool result=false;
-    
+	bool result=true;
+    for(int i = 0; i < 3; i++){
+        for(int j = 0; j < 3; j++){
+            if(board[i][j] != goalBoard[i][j]){
+                return false;
+            }
+        }
+    }
     //this is incomplete...
 	return result;
 }
@@ -180,13 +205,21 @@ bool Puzzle::canMoveDown(){
 bool Puzzle::canMoveLeft(int maxDepth){
   	
   	bool m=false;
+	
   	//put your implementations here
+	if(canMoveLeft() && depth < maxDepth){
+        m = true;
+    }
   	return m; 
 }
 bool Puzzle::canMoveRight(int maxDepth){
    
   	bool m=false;
+	
   	//put your implementations here
+	if(canMoveRight() && depth < maxDepth){
+        m = true;
+    }
   	return m; 
 }
 
@@ -194,14 +227,22 @@ bool Puzzle::canMoveRight(int maxDepth){
 bool Puzzle::canMoveUp(int maxDepth){
    
   	bool m=false;
+	
   	//put your implementations here
+	if(canMoveUp() && depth < maxDepth){
+        m = true;
+    }
   	return m; 
 }
 
 bool Puzzle::canMoveDown(int maxDepth){
    
   	bool m=false;
+	
   	//put your implementations here
+	if(canMoveDown() && depth < maxDepth){
+        m = true;
+    }
   	return m; 
 }
 
